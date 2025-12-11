@@ -23,12 +23,12 @@ export function ProfileSettings() {
             <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <label className="text-xs font-medium text-white uppercase tracking-wider">First Name</label>
-                        <input type="text" defaultValue="John" className="w-full bg-black/20 border border-white/10 rounded-lg p-2.5 text-sm focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all" />
+                        <label htmlFor="firstName" className="text-xs font-medium text-white uppercase tracking-wider">First Name</label>
+                        <input id="firstName" type="text" defaultValue="John" className="w-full bg-black/20 border border-white/10 rounded-lg p-2.5 text-sm focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all" />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-xs font-medium text-white uppercase tracking-wider">Last Name</label>
-                        <input type="text" defaultValue="Doe" className="w-full bg-black/20 border border-white/10 rounded-lg p-2.5 text-sm focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all" />
+                        <label htmlFor="lastName" className="text-xs font-medium text-white uppercase tracking-wider">Last Name</label>
+                        <input id="lastName" type="text" defaultValue="Doe" className="w-full bg-black/20 border border-white/10 rounded-lg p-2.5 text-sm focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all" />
                     </div>
                 </div>
 
