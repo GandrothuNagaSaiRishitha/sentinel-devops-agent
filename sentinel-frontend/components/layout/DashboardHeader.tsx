@@ -4,6 +4,7 @@ import { Bell, Search, User } from "lucide-react";
 import { Button } from "@/components/common/Button";
 import { NotificationsModal } from "@/components/common/NotificationsModal";
 import { ProfileDropdown } from "@/components/common/ProfileDropdown";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { useState } from "react";
 
 export function DashboardHeader() {
@@ -29,6 +30,7 @@ export function DashboardHeader() {
             <div className="md:hidden flex-1 pl-12" />
 
             <div className="flex items-center gap-4 relative">
+                <ThemeToggle />
                 <Button
                     variant="ghost"
                     size="icon"
