@@ -1,3 +1,4 @@
+````markdown
 # Development Guide
 
 This guide provides detailed technical information for developers working on Sentinel.
@@ -643,3 +644,5 @@ describe('ComponentName', () => {
 ---
 
 **Happy coding! 🚀**
+
+````

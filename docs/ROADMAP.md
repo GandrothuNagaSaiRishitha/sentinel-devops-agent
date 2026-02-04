@@ -1,3 +1,4 @@
+```markdown
 # Roadmap
 
 ## Vision
@@ -240,3 +241,5 @@ We welcome community input! To suggest a feature:
 **Last Updated:** February 1, 2026
 
 **Feedback?** Open an issue with label `roadmap-discussion`
+
+```

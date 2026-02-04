@@ -1,3 +1,4 @@
+```markdown
 # Code of Conduct
 
 ## Our Commitment
@@ -106,3 +107,5 @@ Community Impact Guidelines were inspired by [Mozilla's code of conduct enforcem
 If you have questions about this Code of Conduct or need to report a violation, please reach out to the project maintainers.
 
 **Thank you for helping make Sentinel a respectful and welcoming community! 🙏**
+
+```

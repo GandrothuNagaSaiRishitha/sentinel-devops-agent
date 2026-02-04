@@ -1,3 +1,4 @@
+````markdown
 # API Documentation
 
 ## Overview
@@ -360,3 +361,5 @@ if (critical) {
 
 **Last Updated:** February 1, 2026
 **API Version:** 1.0.0
+
+````

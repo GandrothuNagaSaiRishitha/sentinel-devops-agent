@@ -1,3 +1,4 @@
+````markdown
 # Security Policy
 
 ## 🔒 Security Overview
@@ -274,3 +275,5 @@ This Security Policy is licensed under MIT and may be freely used and modified.
 **Version:** 1.0.0
 
 **Thank you for helping keep Sentinel secure! 🔒**
+
+````

@@ -417,13 +417,13 @@ sentinel simulate auth down
 | Document | Content |
 |:--------:|:--------|
 | [**DOCUMENTATION.md**](DOCUMENTATION.md) | Complete docs index |
-| [**ARCHITECTURE.md**](ARCHITECTURE.md) | System design deep-dive |
-| [**DEVELOPMENT.md**](DEVELOPMENT.md) | Setup & development guide |
+| [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) | System design deep-dive |
+| [**DEVELOPMENT.md**](docs/DEVELOPMENT.md) | Setup & development guide |
 | [**CONTRIBUTING.md**](CONTRIBUTING.md) | How to contribute |
-| [**SECURITY.md**](SECURITY.md) | Security policy & disclosure |
-| [**API.md**](API.md) | REST API reference |
-| [**FAQ.md**](FAQ.md) | 50+ Q&A |
-| [**ROADMAP.md**](ROADMAP.md) | Future features |
+| [**SECURITY.md**](docs/SECURITY.md) | Security policy & disclosure |
+| [**API.md**](docs/API.md) | REST API reference |
+| [**FAQ.md**](docs/FAQ.md) | 50+ Q&A |
+| [**ROADMAP.md**](docs/ROADMAP.md) | Future features |
 
 </div>
 

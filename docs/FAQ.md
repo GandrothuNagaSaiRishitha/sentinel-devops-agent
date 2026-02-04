@@ -1,3 +1,4 @@
+````markdown
 # FAQ - Frequently Asked Questions
 
 ## 🎯 General Questions
@@ -387,7 +388,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ### Where can I get help?
 
-- **Documentation:** [README.md](README.md), [DEVELOPMENT.md](DEVELOPMENT.md)
+- **Documentation:** [README.md](../README.md), [DEVELOPMENT.md](DEVELOPMENT.md)
 - **Issues:** [GitHub Issues](https://github.com/SKfaizan-786/sentinel-devops-agent/issues)
 - **Email:** Contact maintainers
 - **Discussions:** GitHub Discussions (coming soon)
@@ -400,7 +401,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 **MIT License** - Free to use, modify, and distribute
 
-See [LICENSE](LICENSE) file for details.
+See [LICENSE](../LICENSE) file for details.
 
 ### Can I use Sentinel commercially?
 
@@ -420,7 +421,7 @@ You're responsible for:
 
 ### Where can I read the full license?
 
-See [LICENSE](LICENSE) file in repository.
+See [LICENSE](../LICENSE) file in repository.
 
 ---
 
@@ -502,3 +503,5 @@ See [SECURITY.md](SECURITY.md#for-production-deployments) for checklist.
 **Last Updated:** February 1, 2026
 
 **Didn't find your answer?** Open an issue with `question` label!
+
+````

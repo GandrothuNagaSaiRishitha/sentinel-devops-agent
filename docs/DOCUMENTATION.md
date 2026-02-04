@@ -1,3 +1,4 @@
+````markdown
 # 📚 Documentation Summary - Apertre 3.0 Submission
 
 ## Overview
@@ -155,7 +156,7 @@ sentinel-devops-agent/
 - ✅ [FAQ.md](FAQ.md) - Troubleshooting
 
 ### For DevOps/Operators
-- ✅ [README.md](README.md) - Quick start
+- ✅ [README.md](../README.md) - Quick start
 - ✅ [ARCHITECTURE.md](ARCHITECTURE.md) - System overview
 - ✅ [SECURITY.md](SECURITY.md) - Production setup
 - ✅ [FAQ.md](FAQ.md) - Deployment questions
@@ -169,7 +170,7 @@ sentinel-devops-agent/
 - ✅ [CONTRIBUTORS.md](CONTRIBUTORS.md) - Team info
 
 ### For Decision Makers
-- ✅ [README.md](README.md) - Project overview
+- ✅ [README.md](../README.md) - Project overview
 - ✅ [ARCHITECTURE.md](ARCHITECTURE.md) - Technical details
 - ✅ [ROADMAP.md](ROADMAP.md) - Future vision
 - ✅ [SECURITY.md](SECURITY.md) - Safety & compliance
@@ -179,7 +180,7 @@ sentinel-devops-agent/
 ## 🚀 How to Use This Documentation
 
 ### Quick Start (5 minutes)
-1. Read [README.md](README.md)
+1. Read [README.md](../README.md)
 2. Follow Docker setup
 3. Open http://localhost:3000
 
@@ -245,7 +246,7 @@ sentinel-devops-agent/
 ### When Creating Release
 1. Update [CONTRIBUTORS.md](CONTRIBUTORS.md) - Add new contributors
 2. Update [ROADMAP.md](ROADMAP.md) - Mark completed items
-3. Update [README.md](README.md) - Update badges/version
+3. Update [README.md](../README.md) - Update badges/version
 4. Create CHANGELOG entry (recommended)
 
 ### When Reporting Issues
@@ -393,3 +394,5 @@ sentinel-devops-agent/
 **Status:** ✅ Complete & Ready
 
 🚀 **Thank you for making Sentinel a world-class open source project!**
+
+````

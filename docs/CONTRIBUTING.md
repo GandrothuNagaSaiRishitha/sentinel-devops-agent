@@ -1,10 +1,11 @@
+````markdown
 # Contributing to Sentinel
 
 Thank you for your interest in contributing to **Sentinel**! We're excited to have you as part of our community. This document will guide you through the contribution process.
 
 ## 🎯 Code of Conduct
 
-Please read and follow our [CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md) before contributing.
+Please read and follow our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
 
 ## 📋 Getting Started
 
@@ -77,9 +78,9 @@ sentinel-devops-agent/
 ```
 
 **Key files to understand:**
-- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - System design & components
-- [sentinel-frontend-prd.md](sentinel-frontend-prd.md) - UI/UX specifications
-- [DEVELOPMENT.md](docs/DEVELOPMENT.md) - Development guidelines
+- [ARCHITECTURE.md](ARCHITECTURE.md) - System design & components
+- [sentinel-frontend-prd.md](../sentinel-frontend-prd.md) - UI/UX specifications
+- [DEVELOPMENT.md](DEVELOPMENT.md) - Development guidelines
 
 ---
 
@@ -411,3 +412,5 @@ By contributing, you agree that your contributions will be licensed under the MI
 ---
 
 **Thank you for making Sentinel better! 🚀**
+
+````
