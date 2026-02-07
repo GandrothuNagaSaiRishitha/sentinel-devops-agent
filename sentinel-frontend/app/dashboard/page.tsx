@@ -5,19 +5,25 @@ import { ServiceGrid } from "@/components/dashboard/ServiceGrid";
 import { MetricsCharts } from "@/components/dashboard/MetricsCharts";
 import { IncidentTimeline } from "@/components/dashboard/IncidentTimeline";
 import { AgentReasoningPanel } from "@/components/dashboard/AgentReasoningPanel";
-import { mockMetrics, mockServices } from "@/lib/mockData";
+import { mockServices } from "@/lib/mockData";
 import { useMetrics } from "@/hooks/useMetrics";
 import { useIncidents } from "@/hooks/useIncidents";
 import { useEffect, useState } from "react";
+import { useContainers } from "@/hooks/useContainers";
+import { ContainerCard } from "@/components/dashboard/ContainerCard";
+import { useMemo } from "react";
 
 export default function DashboardPage() {
     const { metrics } = useMetrics();
     const { incidents, activeIncidentId, setActiveIncidentId } = useIncidents();
+    const { containers, restartContainer } = useContainers();
     const [liveServices, setLiveServices] = useState(mockServices);
 
     // Merge real-time metrics into services
     useEffect(() => {
         setLiveServices(prev => prev.map(service => {
+    const liveServices = useMemo(() => {
+        return mockServices.map(service => {
             const realTime = metrics[service.id];
             // Find base service to reset uptime when healthy
             const baseService = mockServices.find(s => s.id === service.id) || service;
@@ -38,12 +44,12 @@ export default function DashboardPage() {
                     latency: realTime.currentResponseTime,
                     cpu: realTime.currentCpu,
                     uptime: currentUptime.toFixed(2) as any,
-                    status: isDown ? "down" : (realTime.currentErrorRate > 0.2 ? "degraded" : "healthy"),
+                    status: (isDown ? "down" : (realTime.currentErrorRate > 0.2 ? "degraded" : "healthy")) as "down" | "degraded" | "healthy",
                     trend: newTrend.length > 0 ? newTrend : baseService.trend,
                 };
             }
             return service;
-        }));
+        });
     }, [metrics]);
 
     const activeIncident = incidents.find(i => i.id === activeIncidentId);
@@ -86,6 +92,29 @@ export default function DashboardPage() {
                         </div>
                         <ServiceGrid services={liveServices} />
                     </div>
+
+                    {/* Docker Containers Section */}
+                    {containers.length > 0 && (
+                        <div>
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-xl font-semibold text-foreground">Docker Containers</h2>
+                                <span className="text-sm text-muted-foreground flex items-center gap-2">
+                                    <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs font-medium">
+                                        {containers.length} Running
+                                    </span>
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {containers.map(container => (
+                                    <ContainerCard
+                                        key={container.id}
+                                        container={container}
+                                        onRestart={restartContainer}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Right Column: Timeline & Reasoning (1/3 width) */}

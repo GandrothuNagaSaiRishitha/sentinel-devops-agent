@@ -1,6 +1,7 @@
 "use client";
 
 import { Incident } from "@/lib/mockData";
+import { getSeverityColor, getStatusColor } from "@/lib/theme";
 import {
     AlertTriangle,
     CheckCircle,
@@ -24,6 +25,15 @@ export function IncidentCard({ incident, onViewReasoning }: IncidentCardProps) {
     const [expanded, setExpanded] = useState(false);
 
     const getStatusIcon = () => {
+        // Map incident status to theme status for color retrieval
+        const statusMap: Record<string, "healthy" | "warning" | "critical"> = {
+            "resolved": "healthy",
+            "in-progress": "warning",
+            "failed": "critical"
+        };
+        const themeStatus = statusMap[incident.status] || "unknown";
+        const color = getStatusColor(themeStatus);
+
         switch (incident.status) {
             case "resolved": return <CheckCircle className="h-5 w-5 text-green-500" />;
             case "in-progress": return <AlertTriangle className="h-5 w-5 text-orange-500" />;
@@ -31,13 +41,7 @@ export function IncidentCard({ incident, onViewReasoning }: IncidentCardProps) {
         }
     };
 
-    const getSeverityColor = () => {
-        switch (incident.severity) {
-            case "critical": return "bg-red-500/10 text-red-400 border-red-500/20";
-            case "warning": return "bg-orange-500/10 text-orange-400 border-orange-500/20";
-            case "info": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
-        }
-    };
+    const severityColor = getSeverityColor(incident.severity);
 
     return (
         <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all hover:border-white/20">
@@ -51,7 +55,7 @@ export function IncidentCard({ incident, onViewReasoning }: IncidentCardProps) {
                         <div className="mt-1">{getStatusIcon()}</div>
                         <div>
                             <div className="flex items-center gap-2 mb-1">
-                                <span className={`text-xs px-2 py-0.5 rounded-full border ${getSeverityColor()} uppercase tracking-wider font-semibold`}>
+                                <span className={`text-xs px-2 py-0.5 rounded-full border uppercase tracking-wider font-semibold ${severityColor.bg} ${severityColor.text} ${severityColor.border}`}>
                                     {incident.severity}
                                 </span>
                                 <span className="text-sm text-muted-foreground">•</span>
