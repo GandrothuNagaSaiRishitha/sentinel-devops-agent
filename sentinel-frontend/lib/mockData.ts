@@ -10,6 +10,7 @@ export interface Service {
     cpu: number;
     memory: number;
     trend: number[]; // 1-hour trend for sparkline
+    description?: string;
 }
 
 export interface IncidentEvent {
@@ -46,6 +47,7 @@ export const mockServices: Service[] = [
         cpu: 12,
         memory: 45,
         trend: [40, 42, 45, 48, 45, 42, 40, 38, 42, 45, 45, 42],
+        description: "Handles all incoming API requests, rate limiting, and routing to appropriate backend services.",
     },
     {
         id: "auth-service",
@@ -57,6 +59,7 @@ export const mockServices: Service[] = [
         cpu: 15,
         memory: 30,
         trend: [25, 28, 30, 28, 25, 22, 25, 28, 30, 28, 28, 25],
+        description: "Manages user authentication, session validation, and OAuth integrations.",
     },
     {
         id: "payment-service",
@@ -68,6 +71,7 @@ export const mockServices: Service[] = [
         cpu: 22,
         memory: 40,
         trend: [60, 65, 70, 65, 60, 55, 60, 65, 70, 65, 65, 60],
+        description: "Processes payments, refunds, and subscription renewals asynchronously.",
     },
     {
         id: "notification-service",
@@ -79,6 +83,7 @@ export const mockServices: Service[] = [
         cpu: 48,
         memory: 55,
         trend: [100, 110, 120, 115, 110, 105, 110, 115, 120, 115, 115, 110],
+        description: "Sends emails, SMS, and push notifications to users. High throughput required.",
     },
 ];
 

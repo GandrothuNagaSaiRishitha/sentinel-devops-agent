@@ -20,7 +20,7 @@ export function AIInsights({ insights }: AIInsightsProps) {
 
     return (
         <Spotlight className="bg-card border-border h-full flex flex-col">
-            <div className="p-4 border-b border-border bg-gradient-to-r from-purple-500/10 to-transparent flex items-center justify-between">
+            <div className="p-4 border-b border-border bg-linear-to-r from-purple-500/10 to-transparent flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <div className="p-1.5 bg-purple-500/20 rounded-md">
                         <Brain className="h-4 w-4 text-purple-400" />

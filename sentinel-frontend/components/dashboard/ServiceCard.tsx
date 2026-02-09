@@ -54,6 +54,12 @@ export function ServiceCard({ service }: { service: Service }) {
                 </Button>
             </div>
 
+            {service.description && (
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2 h-10">
+                    {service.description}
+                </p>
+            )}
+
             <div className="grid grid-cols-3 gap-2 mb-4">
                 <div className="p-2 rounded bg-muted">
                     <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Uptime</p>

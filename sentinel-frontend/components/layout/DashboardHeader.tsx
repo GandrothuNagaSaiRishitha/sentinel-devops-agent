@@ -49,7 +49,7 @@ export function DashboardHeader() {
 
                 <button
                     onClick={() => setProfileOpen(!profileOpen)}
-                    className="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center ring-2 ring-border hover:ring-primary/50 transition-all"
+                    className="h-8 w-8 rounded-full bg-linear-to-tr from-primary to-purple-500 flex items-center justify-center ring-2 ring-border hover:ring-primary/50 transition-all"
                 >
                     <User className="h-4 w-4 text-white" />
                 </button>

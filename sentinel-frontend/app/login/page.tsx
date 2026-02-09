@@ -25,7 +25,7 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex">
             {/* Left Side - Branding */}
-            <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#0a0a0a] via-[#0f172a] to-[#0a0a0a] items-center justify-center p-12">
+            <div className="hidden lg:flex lg:w-1/2 relative bg-linear-to-br from-[#0a0a0a] via-[#0f172a] to-[#0a0a0a] items-center justify-center p-12">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-30">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(34,211,238,0.15),transparent_50%)]" />

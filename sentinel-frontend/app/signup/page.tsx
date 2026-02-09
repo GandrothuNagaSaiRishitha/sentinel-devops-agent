@@ -158,7 +158,7 @@ export default function SignupPage() {
             </div>
 
             {/* Right Side - Features */}
-            <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-bl from-[#0a0a0a] via-[#0f172a] to-[#0a0a0a] items-center justify-center p-12">
+            <div className="hidden lg:flex lg:w-1/2 relative bg-linear-to-bl from-[#0a0a0a] via-[#0f172a] to-[#0a0a0a] items-center justify-center p-12">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-30">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(34,211,238,0.15),transparent_50%)]" />
@@ -224,7 +224,7 @@ export default function SignupPage() {
                             &quot;Sentinel reduced our MTTR by 85%. Our on-call engineers finally get to sleep through the night.&quot;
                         </p>
                         <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-purple-500" />
+                            <div className="h-10 w-10 rounded-full bg-linear-to-br from-primary to-purple-500" />
                             <div>
                                 <div className="font-semibold text-white">Sarah Chen</div>
                                 <div className="text-xs text-muted-foreground">VP of Engineering, TechCorp</div>

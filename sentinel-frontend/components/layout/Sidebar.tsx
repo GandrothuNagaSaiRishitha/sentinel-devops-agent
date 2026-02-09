@@ -176,7 +176,7 @@ export function Sidebar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setMobileOpen(false)}
-                            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+                            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
                         />
                         {/* Mobile Sidebar */}
                         <motion.aside
