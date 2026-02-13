@@ -123,10 +123,73 @@ export function useIncidentHistory({
     // Simulate API fetch
     const fetchIncidents = useCallback(async () => {
         setIsLoading(true);
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        setIncidents(extendedMockIncidents);
-        setIsLoading(false);
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+            const res = await fetch(`${apiUrl}/insights`);
+            if (!res.ok) throw new Error('Failed to fetch');
+            const data = await res.json();
+
+            // Transform API data to Incident type
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const apiIncidents: Incident[] = (data.insights || []).map((insight: any) => {
+                let aiData: { summary: string } = { summary: "" };
+                const rawAnalysis = insight.analysis || insight.summary || "";
+
+                try {
+                    if (typeof rawAnalysis === 'string' && rawAnalysis.trim().startsWith('{')) {
+                        const parsed = JSON.parse(rawAnalysis);
+                        aiData = parsed;
+                        if (parsed.choices?.[0]?.message?.content) {
+                            aiData.summary = parsed.choices[0].message.content;
+                        }
+                    } else {
+                        aiData = { summary: String(rawAnalysis) };
+                    }
+                } catch {
+                    aiData = { summary: String(rawAnalysis) };
+                }
+
+                const summaryUpper = (aiData.summary || "").toUpperCase();
+                const isCritical = summaryUpper.includes("CRITICAL") || summaryUpper.includes("FATAL");
+                const isDegraded = summaryUpper.includes("DEGRADED") || summaryUpper.includes("ERROR") || summaryUpper.includes("DOWN");
+
+                let status: "resolved" | "failed" = "resolved";
+                let severity: "info" | "warning" | "critical" = "info";
+
+                if (isCritical) {
+                    status = "failed";
+                    severity = "critical";
+                } else if (isDegraded) {
+                    status = "failed"; // map to failed or in-progress?
+                    severity = "warning";
+                }
+
+                return {
+                    id: insight.id?.toString() || Date.now().toString(),
+                    title: aiData.summary ? aiData.summary.slice(0, 100) + (aiData.summary.length > 100 ? "..." : "") : "System Event",
+                    serviceId: "system", // default since API doesn't always have service
+                    status: status,
+                    severity: severity,
+                    timestamp: insight.timestamp || new Date().toISOString(),
+                    duration: "N/A",
+                    rootCause: "See details",
+                    agentAction: "Monitoring",
+                    agentPredictionConfidence: 0,
+                    timeline: [],
+                    reasoning: aiData.summary || String(rawAnalysis)
+                };
+            });
+
+            // Merge with mock or just use API? 
+            // For now, let's combine them so the table isn't empty if API is empty
+            setIncidents([...apiIncidents, ...extendedMockIncidents]);
+        } catch (err) {
+            console.error(err);
+            // Fallback to mocks
+            setIncidents(extendedMockIncidents);
+        } finally {
+            setIsLoading(false);
+        }
     }, []);
 
     useEffect(() => {
