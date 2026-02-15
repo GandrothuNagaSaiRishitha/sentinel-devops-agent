@@ -27,6 +27,19 @@ let systemStatus = {
 
 let activityLog = [];
 let aiLogs = [];
+let nextLogId = 1;
+
+function logActivity(type, message) {
+  const entry = {
+    id: nextLogId++,
+    timestamp: new Date().toISOString(),
+    type,
+    message
+  };
+  activityLog.unshift(entry);
+  if (activityLog.length > 100) activityLog.pop(); // Keep last 100
+  console.log(`[LOG] ${type}: ${message}`);
+}
 
 // WebSocket Broadcaster
 let wsBroadcaster = { broadcast: () => { } };
@@ -66,6 +79,16 @@ async function checkServiceHealth() {
       systemStatus.services[service.name].status !== newStatus ||
       systemStatus.services[service.name].code !== newCode
     ) {
+      const prevStatus = systemStatus.services[service.name].status;
+
+      // Log Status Changes
+      if (newStatus === 'healthy' && prevStatus !== 'healthy' && prevStatus !== 'unknown') {
+        logActivity('success', `Service ${service.name} recovered to HEALTHY`);
+      } else if (newStatus !== 'healthy' && prevStatus !== newStatus) {
+        const severity = newStatus === 'critical' ? 'alert' : 'warn';
+        logActivity(severity, `Service ${service.name} is ${newStatus.toUpperCase()} (Code: ${newCode})`);
+      }
+
       systemStatus.services[service.name] = {
         status: newStatus,
         code: newCode,
@@ -109,7 +132,6 @@ app.post('/api/kestra-webhook', (req, res) => {
   const { aiReport, metrics } = req.body;
   if (aiReport) {
     systemStatus.aiAnalysis = aiReport;
-
     // Create an incident/insight object
     const insight = {
       id: Date.now(),
@@ -119,6 +141,8 @@ app.post('/api/kestra-webhook', (req, res) => {
     };
     aiLogs.unshift(insight);
     if (aiLogs.length > 50) aiLogs.pop();
+
+    logActivity('info', 'Received new AI Analysis report');
 
     // Broadcast new incident/insight
     wsBroadcaster.broadcast('INCIDENT_NEW', insight);
@@ -130,9 +154,15 @@ app.post('/api/kestra-webhook', (req, res) => {
       if (systemStatus.services[serviceName]) {
         systemStatus.services[serviceName].code = metrics[serviceName].code || 0;
         const code = metrics[serviceName].code;
-        systemStatus.services[serviceName].status =
-          code >= 200 && code < 300 ? 'healthy' :
-            code >= 500 ? 'critical' : 'degraded';
+        const newStatus = code >= 200 && code < 300 ? 'healthy' :
+          code >= 500 ? 'critical' : 'degraded';
+
+        if (systemStatus.services[serviceName].status !== newStatus) {
+          const severity = newStatus === 'healthy' ? 'success' : (newStatus === 'critical' ? 'alert' : 'warn');
+          logActivity(severity, `Metric update: ${serviceName} is now ${newStatus}`);
+        }
+
+        systemStatus.services[serviceName].status = newStatus;
         systemStatus.services[serviceName].lastUpdated = new Date();
       }
     });
@@ -147,7 +177,12 @@ app.post('/api/action/:service/:type', async (req, res) => {
   const serviceMap = { 'auth': 3001, 'payment': 3002, 'notification': 3003 };
   const port = serviceMap[service];
 
-  if (!port) return res.status(400).json({ success: false, error: 'Invalid service' });
+  logActivity('info', `Triggering action '${type}' on service '${service}'`);
+
+  if (!port) {
+    logActivity('warn', `Failed action '${type}': Invalid service '${service}'`);
+    return res.status(400).json({ success: false, error: 'Invalid service' });
+  }
 
   try {
     let mode = 'healthy';
@@ -156,12 +191,13 @@ app.post('/api/action/:service/:type', async (req, res) => {
     if (type === 'slow') mode = 'slow';
 
     await axios.post(`http://localhost:${port}/simulate/${mode}`, {}, { timeout: 5000 });
-
     // Force a health check to update status immediately
     await checkServiceHealth();
 
+    logActivity('success', `Successfully executed '${type}' on ${service}`);
     res.json({ success: true, message: `${type} executed on ${service}` });
   } catch (error) {
+    logActivity('error', `Action '${type}' on ${service} failed: ${error.message}`);
     res.status(500).json({ success: false, error: error.message });
   }
 });
