@@ -26,7 +26,7 @@ export default function TermsPage() {
       title: "Legal Notice",
       content: (
         <ul className="space-y-3 text-gray-300 leading-relaxed">
-          <li>Platform is provided "as-is" without warranty.</li>
+          <li>Platform is provided &quot;as-is&quot; without warranty.</li>
           <li>Users must comply with applicable laws and regulations.</li>
           <li>Intellectual property governed by LICENSE file.</li>
           <li>Contributors retain rights under licensing terms.</li>
