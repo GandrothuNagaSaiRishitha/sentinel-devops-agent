@@ -103,7 +103,7 @@ export function LogViewer() {
                                 : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
                             }`}
                     >
-                        <Activity className={`w-4 h-4 ${!isPaused && 'animate-pulse'}`} />
+                        <Activity className={`w-4 h-4 ${!isPaused ? 'animate-pulse' : ''}`} />
                         {isPaused ? "Paused" : "Live"}
                     </button>
 
