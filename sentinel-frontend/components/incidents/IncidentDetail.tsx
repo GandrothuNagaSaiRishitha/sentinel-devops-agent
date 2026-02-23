@@ -13,8 +13,10 @@ interface IncidentDetailProps {
 export function IncidentDetail({ incident, onViewReasoning }: IncidentDetailProps) {
     const { addNotification } = useNotifications();
 
+    // Fix 1: Guard so notification only fires when callback actually exists
     const handleViewReasoning = () => {
-        onViewReasoning?.(incident.id);
+        if (!onViewReasoning) return;
+        onViewReasoning(incident.id);
         addNotification({
             type: "info",
             title: "Loading agent reasoning",
@@ -88,7 +90,6 @@ export function IncidentDetail({ incident, onViewReasoning }: IncidentDetailProp
             )}
 
             {/* Actions */}
-            {/* ── MODIFIED: wired to handleViewReasoning for toast feedback ── */}
             <div className="flex justify-end pt-2">
                 <Button
                     size="sm"

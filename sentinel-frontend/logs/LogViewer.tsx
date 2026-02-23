@@ -2,13 +2,14 @@
 
 import { useLogs, LogLevel } from "@/hooks/useLogs";
 import { useNotifications } from "@/hooks/useNotifications";
-import { Search, Filter, Trash2, ShieldAlert, CheckCircle, Info, Ban, Activity, Copy, ClipboardCheck } from "lucide-react";
+// Fix 1: Removed unused ClipboardCheck import
+import { Search, Filter, Trash2, ShieldAlert, CheckCircle, Info, Ban, Activity, Copy } from "lucide-react";
 
 export function LogViewer() {
     const { logs, search, setSearch, filterLevel, setFilterLevel, clearLogs, isPaused, setIsPaused } = useLogs();
     const { addNotification } = useNotifications();
 
-
+    // Fix 2: Added .catch() for clipboard rejection error handling
     const handleCopyLatest = () => {
         if (logs.length === 0) return;
         navigator.clipboard.writeText(logs[0].message).then(() => {
@@ -17,15 +18,24 @@ export function LogViewer() {
                 title: "Copied to clipboard",
                 message: "Latest log entry copied to your clipboard.",
             });
+        }).catch(() => {
+            addNotification({
+                type: "error",
+                title: "Copy failed",
+                message: "Could not copy to clipboard. Ensure the page is served over HTTPS.",
+            });
         });
     };
 
+    // Fix 3: Context-aware message depending on live/paused state
     const handleClearLogs = () => {
         clearLogs();
         addNotification({
             type: "info",
             title: "Logs cleared",
-            message: "All log entries have been removed.",
+            message: isPaused
+                ? "All log entries have been removed."
+                : "Log display cleared. Live entries will resume shortly.",
         });
     };
 
@@ -53,9 +63,11 @@ export function LogViewer() {
             <div className="flex flex-col md:flex-row gap-4 p-4 bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl">
                 <div className="relative flex-1 group">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-400 transition-colors" />
+                    {/* Fix 4: Added aria-label to search input */}
                     <input
                         type="text"
                         placeholder="Search logs by message or service..."
+                        aria-label="Search logs"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all placeholder:text-slate-500 text-slate-200"
@@ -64,9 +76,11 @@ export function LogViewer() {
 
                 <div className="flex gap-3">
                     <div className="relative">
+                        {/* Fix 5: Added aria-label to select; Fix 6: Added Debug option */}
                         <select
                             value={filterLevel}
                             onChange={(e) => setFilterLevel(e.target.value as LogLevel | "all")}
+                            aria-label="Filter by log level"
                             className="appearance-none pl-4 pr-10 py-2.5 bg-black/20 border border-white/5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-slate-200 cursor-pointer hover:bg-black/30 transition-colors"
                         >
                             <option value="all">All Levels</option>
@@ -74,12 +88,16 @@ export function LogViewer() {
                             <option value="warn">Warning</option>
                             <option value="error">Error</option>
                             <option value="success">Success</option>
+                            <option value="debug">Debug</option>
                         </select>
                         <Filter className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                     </div>
 
+                    {/* Fix 7: Added aria-pressed and aria-label to Live/Paused toggle */}
                     <button
                         onClick={() => setIsPaused(!isPaused)}
+                        aria-pressed={isPaused}
+                        aria-label={isPaused ? "Resume live log stream" : "Pause live log stream"}
                         className={`px-4 py-2.5 rounded-xl text-sm font-medium border transition-all flex items-center gap-2 ${isPaused
                                 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20'
                                 : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
@@ -89,7 +107,6 @@ export function LogViewer() {
                         {isPaused ? "Paused" : "Live"}
                     </button>
 
-                    {/* ── NEW: Copy latest log to clipboard ── */}
                     <button
                         onClick={handleCopyLatest}
                         disabled={logs.length === 0}
@@ -100,7 +117,6 @@ export function LogViewer() {
                         Copy Latest
                     </button>
 
-                    {/* ── MODIFIED: wired to handleClearLogs for toast feedback ── */}
                     <button
                         onClick={handleClearLogs}
                         className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/10 rounded-xl transition-all"
@@ -161,8 +177,6 @@ export function LogViewer() {
                                         {log.message}
                                     </p>
                                 </div>
-
-
                             </div>
                         ))
                     )}
