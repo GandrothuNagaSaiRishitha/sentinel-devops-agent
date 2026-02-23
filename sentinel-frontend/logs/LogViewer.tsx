@@ -129,10 +129,10 @@ export function LogViewer() {
 
             {/* Log List */}
             <div className="bg-[#1e293b]/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl overflow-hidden min-h-[600px] flex flex-col">
-                <div className="flex items-center justify-between px-6 py-4 bg-black/20 border-b border-white/5">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Timestamp</span>
+                <div className="flex gap-6 px-6 py-4 bg-black/20 border-b border-white/5">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest w-32 shrink-0">Timestamp</span>
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Event Details</span>
-                </div>
+            </div>
 
                 <div className="divide-y divide-white/5 overflow-y-auto flex-1 custom-scrollbar">
                     {logs.length === 0 ? (
