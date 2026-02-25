@@ -10,6 +10,14 @@ export function LogViewer() {
 
     const handleCopyLatest = () => {
         if (logs.length === 0) return;
+        if (!navigator.clipboard) {
+            addNotification({
+                type: "error",
+                title: "Copy failed",
+                message: "Clipboard API is not available in this context.",
+            });
+            return;
+        }
         navigator.clipboard.writeText(logs[0].message).then(() => {
             addNotification({
                 type: "success",
@@ -36,7 +44,6 @@ export function LogViewer() {
         });
     };
 
-    // Fix 1: Debug has its own icon and visual treatment (not falling back to info)
     const getIcon = (level: LogLevel) => {
         switch (level) {
             case "error":   return <Ban className="w-4 h-4 text-red-400" />;
@@ -47,7 +54,6 @@ export function LogViewer() {
         }
     };
 
-    // Fix 2: Debug has its own row style and badge color
     const getRowStyle = (level: LogLevel) => {
         switch (level) {
             case "error":   return "bg-red-500/5 hover:bg-red-500/10 border-l-2 border-l-red-500";
@@ -125,7 +131,6 @@ export function LogViewer() {
                         Copy Latest
                     </button>
 
-                    {/* Fix 3: Clear-logs button has aria-label and is disabled when no logs */}
                     <button
                         onClick={handleClearLogs}
                         disabled={logs.length === 0}
