@@ -58,7 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         return (
             <Comp
-                className={cn(buttonVariants({ variant, size, className }), shortcutHint && "group relative")}
+                className={cn(buttonVariants({ variant, size, className }), !asChild && shortcutHint && "group relative")}
                 ref={ref}
                 {...props}
             >
@@ -66,6 +66,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {shortcutHint && !asChild && (
                     <kbd
                         ref={kbdRef}
+                        aria-hidden="true"
                         className={cn(
                             "pointer-events-none absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity hidden md:inline-flex h-6 items-center gap-1 rounded border border-border bg-popover px-1.5 font-mono text-[10px] font-medium text-popover-foreground whitespace-nowrap shadow-sm z-50",
                             finalPosition === "bottom" ? "-bottom-8" : "-top-8"

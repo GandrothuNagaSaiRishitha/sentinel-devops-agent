@@ -22,6 +22,7 @@ export function KeyboardShortcutsModal({
                 { keys: ["G", "Then", "S"], description: "Go to Services" },
                 { keys: ["G", "Then", "I"], description: "Go to Incidents" },
                 { keys: ["G", "Then", "L"], description: "Go to Logs" },
+                { keys: ["G", "Then", "A"], description: "Go to Analytics" },
             ]
         },
         {
@@ -43,7 +44,7 @@ export function KeyboardShortcutsModal({
     ];
 
     return (
-        <div className="fixed inset-0 z-100 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -51,10 +52,15 @@ export function KeyboardShortcutsModal({
             />
 
             {/* Modal */}
-            <div className="relative bg-background border border-border rounded-xl max-w-3xl w-full mx-4 shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+            <div 
+                className="relative bg-background border border-border rounded-xl max-w-3xl w-full mx-4 shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="shortcuts-modal-title"
+            >
                 <div className="flex items-center justify-between p-6 border-b border-white/5 bg-muted/20">
                     <div>
-                        <h2 className="text-xl font-bold text-foreground tracking-tight">⌨️ Keyboard Shortcuts</h2>
+                        <h2 id="shortcuts-modal-title" className="text-xl font-bold text-foreground tracking-tight">⌨️ Keyboard Shortcuts</h2>
                         <p className="text-sm text-muted-foreground mt-1">Master Sentinel with these efficient keybindings.</p>
                     </div>
                     <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground bg-white/5 rounded-md transition-colors hover:bg-white/10">

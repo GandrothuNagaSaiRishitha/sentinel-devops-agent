@@ -36,8 +36,17 @@ export function useKeyboardShortcuts() {
                 router.refresh();
             }
         },
-        { key: 'c', description: 'Export Incidents', handler: () => console.log('Exporting...') },
-        { key: 's', description: 'Save Changes', handler: () => console.log('Saving...') },
+        { key: 'c', description: 'Export Incidents', handler: () => document.getElementById('export-incidents-btn')?.click() },
+        { 
+            key: 's', 
+            description: 'Save Changes', 
+            handler: () => {
+                const saveBtn = document.getElementById('save-settings-btn');
+                if (saveBtn) {
+                    saveBtn.click();
+                }
+            } 
+        },
 
         // System
         { key: '?', description: 'Show keyboard shortcuts', handler: () => setShowHelp(true) },

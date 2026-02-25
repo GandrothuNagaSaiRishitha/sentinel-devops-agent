@@ -40,6 +40,7 @@ export function IncidentExport({ incidents, disabled = false }: IncidentExportPr
     return (
         <div className="relative" ref={dropdownRef}>
             <Button
+                id="export-incidents-btn"
                 variant="outline"
                 size="sm"
                 onClick={() => setIsOpen(!isOpen)}
