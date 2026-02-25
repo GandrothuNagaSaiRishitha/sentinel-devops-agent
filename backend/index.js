@@ -14,7 +14,7 @@ const healer = require('./docker/healer');
 const authRoutes = require('./routes/auth.routes');
 const usersRoutes = require('./routes/users.routes');
 const rolesRoutes = require('./routes/roles.routes');
-const { apiLimiter, healLimiter } = require('./middleware/rateLimiter');
+const { apiLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -25,7 +25,6 @@ app.use(bodyParser.json());
 
 // Rate limiters (ADD HERE)
 app.use('/api', apiLimiter);
-app.use('/api/heal', healLimiter);
 
 // RBAC Routes
 app.use('/auth', authRoutes);
