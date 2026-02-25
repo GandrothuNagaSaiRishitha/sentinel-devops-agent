@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -37,11 +39,23 @@ export interface ButtonProps
     variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "glass" | null;
     size?: "default" | "sm" | "lg" | "icon" | null;
     shortcutHint?: string;
+    shortcutPosition?: "top" | "bottom";
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, shortcutHint, children, ...props }, ref) => {
+    ({ className, variant, size, asChild = false, shortcutHint, shortcutPosition, children, ...props }, ref) => {
         const Comp = asChild ? Slot : "button";
+        const [isInsideHeader, setIsInsideHeader] = React.useState(false);
+        const kbdRef = React.useRef<HTMLElement>(null);
+
+        React.useEffect(() => {
+            if (kbdRef.current) {
+                setIsInsideHeader(!!kbdRef.current.closest("header"));
+            }
+        }, [shortcutHint]);
+
+        const finalPosition = shortcutPosition || (isInsideHeader ? "bottom" : "top");
+
         return (
             <Comp
                 className={cn(buttonVariants({ variant, size, className }), shortcutHint && "group relative")}
@@ -50,7 +64,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             >
                 {children}
                 {shortcutHint && !asChild && (
-                    <kbd className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity hidden md:inline-flex h-6 items-center gap-1 rounded border border-border bg-popover px-1.5 font-mono text-[10px] font-medium text-popover-foreground whitespace-nowrap z-100 shadow-sm">
+                    <kbd
+                        ref={kbdRef}
+                        className={cn(
+                            "pointer-events-none absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity hidden md:inline-flex h-6 items-center gap-1 rounded border border-border bg-popover px-1.5 font-mono text-[10px] font-medium text-popover-foreground whitespace-nowrap shadow-sm z-50",
+                            finalPosition === "bottom" ? "-bottom-8" : "-top-8"
+                        )}
+                    >
                         {shortcutHint}
                     </kbd>
                 )}

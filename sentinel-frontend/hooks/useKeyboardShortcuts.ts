@@ -17,7 +17,9 @@ export function useKeyboardShortcuts() {
     const [pendingKey, setPendingKey] = useState<string | null>(null);
 
     const shortcuts: Shortcut[] = useMemo(() => [
-        // Navigation (G + key)
+        // Navigation
+        { key: 'j', description: 'Scroll Down / Next', handler: () => window.scrollBy({ top: 100, behavior: 'smooth' }) },
+        { key: 'k', description: 'Scroll Up / Previous', handler: () => window.scrollBy({ top: -100, behavior: 'smooth' }) },
         { key: 'g+d', description: 'Go to Dashboard', handler: () => router.push('/dashboard') },
         { key: 'g+s', description: 'Go to Services', handler: () => router.push('/dashboard/services') },
         { key: 'g+i', description: 'Go to Incidents', handler: () => router.push('/dashboard/incidents') },
@@ -25,6 +27,19 @@ export function useKeyboardShortcuts() {
         { key: 'g+a', description: 'Go to Analytics', handler: () => router.push('/dashboard/analytics') },
 
         // Actions
+        { key: 'n', description: 'New Incident', handler: () => router.push('/dashboard/incidents/new') },
+        {
+            key: 'r',
+            description: 'Refresh data',
+            handler: () => {
+                console.log('Refreshing data...');
+                router.refresh();
+            }
+        },
+        { key: 'c', description: 'Export Incidents', handler: () => console.log('Exporting...') },
+        { key: 's', description: 'Save Changes', handler: () => console.log('Saving...') },
+
+        // System
         { key: '?', description: 'Show keyboard shortcuts', handler: () => setShowHelp(true) },
         { key: 'Escape', description: 'Close modal', handler: () => setShowHelp(false) },
         {
@@ -35,16 +50,6 @@ export function useKeyboardShortcuts() {
                 }
             }
         },
-        {
-            key: 'r',
-            description: 'Refresh data',
-            handler: () => {
-                console.log('Refreshing data...');
-                router.refresh();
-            }
-        },
-        { key: 'n', description: 'New Incident', handler: () => router.push('/dashboard/incidents/new') },
-        { key: 'c', description: 'Export Incidents', handler: () => console.log('Exporting...') },
     ], [router]);
 
     const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -75,12 +80,17 @@ export function useKeyboardShortcuts() {
         }
 
         // Single key shortcuts
-        const shortcut = shortcuts.find(s => s.key === key || s.key === event.key);
+        let effectiveKey = key;
+        if (event.key === '?' || (event.shiftKey && event.key === '/')) {
+            effectiveKey = '?';
+            event.preventDefault();
+        } else if (event.key === '/') {
+            effectiveKey = '/';
+            event.preventDefault();
+        }
+
+        const shortcut = shortcuts.find(s => s.key === effectiveKey || s.key === event.key);
         if (shortcut) {
-            // Special case for '/' to prevent it from being typed if there's no input focused yet
-            if (event.key === '/' || event.key === '?') {
-                event.preventDefault();
-            }
             shortcut.handler();
         }
     }, [pendingKey, shortcuts]);
