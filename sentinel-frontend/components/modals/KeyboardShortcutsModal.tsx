@@ -63,7 +63,12 @@ export function KeyboardShortcutsModal({
                         <h2 id="shortcuts-modal-title" className="text-xl font-bold text-foreground tracking-tight">⌨️ Keyboard Shortcuts</h2>
                         <p className="text-sm text-muted-foreground mt-1">Master Sentinel with these efficient keybindings.</p>
                     </div>
-                    <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground bg-white/5 rounded-md transition-colors hover:bg-white/10">
+                    <button
+                        type="button"
+                        aria-label="Close keyboard shortcuts"
+                        onClick={onClose}
+                        className="p-2 text-muted-foreground hover:text-foreground bg-white/5 rounded-md transition-colors hover:bg-white/10"
+                    >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
